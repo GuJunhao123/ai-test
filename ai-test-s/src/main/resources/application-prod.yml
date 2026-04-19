@@ -1,0 +1,29 @@
+# 生产环境配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host.docker.internal:3306/ai_eval?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:}
+  data:
+    redis:
+      host: host.docker.internal
+      port: 6379
+      database: 1
+      password: ${REDIS_PASSWORD:}
+      timeout: 5000
+  rabbitmq:
+    host: host.docker.internal
+    port: 5672
+    username: ${RABBITMQ_USERNAME:}
+    password: ${RABBITMQ_PASSWORD:}
+    virtual-host: /
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+        prefetch: 1
+  ai:
+    openai:
+      api-key: ${OPENROUTER_API_KEY:}
